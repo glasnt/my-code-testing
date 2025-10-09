@@ -1,0 +1,32 @@
+
+name: lint
+on:
+  workflow_call:
+    inputs:
+      head-sha:
+        description: The SHA of the head commit.
+        required: true
+        type: string
+      paths-json:
+        description: A JSON list of package paths.
+        required: true
+        type: string
+
+jobs:
+
+  lint:
+    if: inputs.paths-json != '[]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.head-sha }}
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.14 # ${{ inputs.python-version }}
+      - name: Python go
+        run: |
+          pip install black
+          echo  ${{ inputs.paths-json }}
