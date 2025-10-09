@@ -1,0 +1,10 @@
+{
+  "package-file": [ "package.json" ],
+  "ci-setup-filename": "ci-setup.json",
+  "ci-setup-defaults": {
+    "env": { },
+    "secrets": { },
+    "node-version": 20,
+    "timeout-minutes": 10
+  }
+}
