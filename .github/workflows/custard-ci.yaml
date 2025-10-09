@@ -15,7 +15,9 @@ jobs:
   affected:
     runs-on: ubuntu-latest
     steps:
-  
+     - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+       with:
+         fetch-depth: 0
      - name: Setup Node
        uses: actions/setup-node@v4
        with:
@@ -26,9 +28,9 @@ jobs:
      - name: run the file
        run: | 
          git --no-pager diff --name-only HEAD origin/main | tee /tmp/diffs.txt
-         node custard.ts affected .github/config.jsonc /tmp/diffs.txt
-         cat /tmp/diffs.txt
-         echo "paths=$(echo /tmp/diffs.txt)" >> $GITHUB_OUTPUT
+         node custard.ts affected .github/config.jsonc /tmp/diffs.txt | tee /tmp/affected.txt
+         cat /tmp/affected.txt
+         echo "paths=$(echo /tmp/affected.txt)" >> $GITHUB_OUTPUT
 
 
   lint:
