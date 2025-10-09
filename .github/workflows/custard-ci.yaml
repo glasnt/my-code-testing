@@ -13,15 +13,23 @@ on:
 
 jobs:
   affected:
-    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@9ee708234e240605d96e78f652c333ed6aa95a23 # v0.4.0
-    permissions:
-      statuses: write
-    with:
-      head-sha: ${{ github.event.pull_request.head.sha || github.sha }}
-      config-file: .github/custard/config.jsonc
-      custard-version: v0.4.0
-      # No need to create checks since this is a pull_request workflow.
-      create-check-if: false
+    runs-on: ubuntu-latest
+    steps:
+  
+     - name: Setup Node
+       uses: actions/setup-node@v4
+       with:
+         node-version: 24
+     - name: get the new file
+       run: | 
+         wget -O custard.ts https://raw.githubusercontent.com/GoogleCloudPlatform/cloud-samples-tools/05419847ab87249e764e012a6699689f3cbd8d04/scripts/src/custard.ts 
+     - name: run the file
+       run: | 
+         git --no-pager diff --name-only HEAD origin/main | tee /tmp/diffs.txt
+         node custard.ts affected .github/config.jsonc /tmp/diffs.txt
+         cat /tmp/diffs.txt
+         echo "paths=$(echo /tmp/diffs.txt)" >> $GITHUB_OUTPUT
+
 
   lint:
     needs: affected
@@ -29,3 +37,4 @@ jobs:
     with:
       head-sha: ${{ github.event.pull_request.head.sha || github.sha }}
       paths-json: ${{ needs.affected.outputs.paths }}
+        
