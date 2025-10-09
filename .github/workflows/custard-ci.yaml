@@ -9,6 +9,7 @@ on:
   pull_request:
     paths-ignore:
       - .github/custard/test/**
+  workflow_dispatch:
 
 jobs:
   affected:
