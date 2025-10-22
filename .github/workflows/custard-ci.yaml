@@ -14,25 +14,13 @@ on:
 jobs:
   affected:
     runs-on: ubuntu-latest
-    steps:
-     - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
-       with:
-         fetch-depth: 0
-     - name: Setup Node
-       uses: actions/setup-node@v4
-       with:
-         node-version: 24
-     - name: get the new file
-       run: | 
-         wget -O custard.ts https://raw.githubusercontent.com/GoogleCloudPlatform/cloud-samples-tools/05419847ab87249e764e012a6699689f3cbd8d04/scripts/src/custard.ts 
-     - name: run the file
-       run: | 
-         git --no-pager diff --name-only HEAD origin/main | tee /tmp/diffs.txt
-         node custard.ts affected .github/config.jsonc /tmp/diffs.txt | tee /tmp/affected.txt
-         cat /tmp/affected.txt
-         echo "paths=$(echo /tmp/affected.txt)" >> $GITHUB_OUTPUT
-
-
+    steps: 
+      uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@v0.5.0rc1
+      permissions:
+        statuses: write
+      with:
+        head-sha: ${{ github.event.workflow_run.head_sha || github.sha }}
+        config-file: path/to/my/config.jsonc
   lint:
     needs: affected
     uses: ./.github/workflows/lint.yaml
