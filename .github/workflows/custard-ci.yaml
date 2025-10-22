@@ -13,7 +13,7 @@ on:
 
 jobs:
   affected:
-    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@3684cab49a2f483fac535afb7b27767836a23a49 # working copy
+    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@8e1f1eeaf357cdf0906cb8e094c34cc9902f33b1 # working copy
     permissions:
       statuses: write
     with:
