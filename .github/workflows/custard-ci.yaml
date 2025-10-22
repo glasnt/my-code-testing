@@ -13,7 +13,7 @@ on:
 
 jobs:
   affected:
-    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@f47827df87f3a3c7ced26868844e1d6cc871c3ff # head of ts-gigapudding
+    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@fb380e80e52a937814a96fa9c14c0bac26fbe058 # working copy
     permissions:
       statuses: write
     with:
