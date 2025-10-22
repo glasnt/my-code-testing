@@ -13,14 +13,12 @@ on:
 
 jobs:
   affected:
-    runs-on: ubuntu-latest
+    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@v0.5.0rc1
     permissions:
       statuses: write
-    steps: 
-      - uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@v0.5.0rc1
-        with:
-          head-sha: ${{ github.event.workflow_run.head_sha || github.sha }}
-          config-file: path/to/my/config.jsonc
+    with:
+      head-sha: ${{ github.event.workflow_run.head_sha || github.sha }}
+      config-file: path/to/my/config.jsonc
   lint:
     needs: affected
     uses: ./.github/workflows/lint.yaml
