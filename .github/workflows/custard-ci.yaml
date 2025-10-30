@@ -18,7 +18,7 @@ jobs:
       statuses: write
     with:
       head-sha: ${{ github.event.workflow_run.head_sha || github.sha }}
-      config-file: path/to/my/config.jsonc
+      config-file: .github/config.jsonc
   lint:
     needs: affected
     uses: ./.github/workflows/lint.yaml
