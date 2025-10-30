@@ -26,7 +26,10 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: 3.14 # ${{ inputs.python-version }}
-      - name: Python go
+      - name: Install Dependencies
         run: |
           pip install black
-          echo  ${{ inputs.paths-json }}
+          echo "Contents of paths-json: ${{ inputs.paths-json }}"
+      - name: Run Lint
+        run: |
+          echo "TODO: run black on all files in paths-json"
