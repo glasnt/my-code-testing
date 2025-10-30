@@ -38,7 +38,7 @@ jobs:
 
             const cmd = 'black';
             let failed = [];
-            for (const path of inputs.paths-json) {
+            for (const path of ${{inputs.paths-json}}) {
               try {
                 execSync(cmd, {cwd: path});
                 console.log(`✅ [${path}]: ${cmd}`);
