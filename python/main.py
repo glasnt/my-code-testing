@@ -1,2 +1,2 @@
 def main():
-    print("Hello, Earth!"   )
+    print("Hello, Earth!"    )
