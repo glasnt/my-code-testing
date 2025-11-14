@@ -13,7 +13,7 @@ on:
 
 jobs:
   affected:
-    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@v0.4.0
+    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@0.5.0rc1
     permissions:
       statuses: write
     with:
@@ -21,7 +21,10 @@ jobs:
       config-file: .github/config.jsonc
   lint:
     needs: affected
-    uses: ./.github/workflows/lint.yaml
-    with:
-      head-sha: ${{ github.event.pull_request.head.sha || github.sha }}
-      paths-json: ${{ needs.affected.outputs.paths }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run linter
+        uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/map-run@v0.5.0rc1
+        with:
+          command: black
+          paths: ${{ needs.affected.outputs.paths }}
