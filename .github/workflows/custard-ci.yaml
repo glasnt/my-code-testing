@@ -22,7 +22,7 @@ jobs:
       head-sha: ${{ github.event.workflow_run.head_sha || github.sha }}
       config-file: .github/config.jsonc
 
-  # Run linting against changed packages
+  # Run linting against changed packages (command is run in cwd of affected path)
   lint:
     needs: affected
     runs-on: ubuntu-latest
@@ -30,12 +30,24 @@ jobs:
       - name: Run linter
         uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/map-run@v0.5.0rc1
         with:
-          command: black
+          command: black *.py
           paths: ${{ needs.affected.outputs.paths }}
+
+  # Run tests against changed packages
+  test:
+    needs: affected
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run linter
+        uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/map-run@v0.5.0rc1
+        with:
+          command: pip install -r requirements-test.txt && pytest
+          paths: ${{ needs.affected.outputs.paths }}
+
 
   # Confirm all checks complete
   done:
-    needs: [affected, lint]
+    needs: [affected, test, lint]
     runs-on: ubuntu-latest
     permissions:
       statuses: write
