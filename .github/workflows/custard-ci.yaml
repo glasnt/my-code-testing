@@ -12,6 +12,8 @@ on:
   workflow_dispatch:
 
 jobs:
+
+  # Find the packages that were changed 
   affected:
     uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@v0.5.0rc1
     permissions:
@@ -19,6 +21,8 @@ jobs:
     with:
       head-sha: ${{ github.event.workflow_run.head_sha || github.sha }}
       config-file: .github/config.jsonc
+
+  # Run linting against changed packages
   lint:
     needs: affected
     runs-on: ubuntu-latest
@@ -29,6 +33,7 @@ jobs:
           command: black
           paths: ${{ needs.affected.outputs.paths }}
 
+  # Confirm all checks complete
   done:
     needs: [affected, lint]
     runs-on: ubuntu-latest
