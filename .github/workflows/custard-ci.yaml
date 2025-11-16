@@ -28,3 +28,14 @@ jobs:
         with:
           command: black
           paths: ${{ needs.affected.outputs.paths }}
+
+  done:
+    needs: [affected, lint]
+    runs-on: ubuntu-latest
+    permissions:
+      statuses: write
+    steps:
+      - uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/update-check@rework-pudding
+        with:
+          check: ${{ needs.affected.outputs.check }}
+          status: success
