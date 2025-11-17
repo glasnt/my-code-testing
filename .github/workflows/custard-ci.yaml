@@ -25,9 +25,8 @@ jobs:
   # Run linting against changed packages (command is run in cwd of affected path)
   lint:
     needs: affected
-    uses: .github/workflows/lint.yaml@main
+    uses: ./.github/workflows/lint.yaml
       
-
   # Run tests against changed packages
   test:
     needs: affected
