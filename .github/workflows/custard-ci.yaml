@@ -26,6 +26,8 @@ jobs:
   lint:
     needs: affected
     uses: ./.github/workflows/lint.yaml
+    with:
+        paths: ${{ needs.affected.outputs.paths }}
       
   # Run tests against changed packages
   test:
