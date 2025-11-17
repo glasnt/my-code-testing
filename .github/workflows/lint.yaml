@@ -31,3 +31,4 @@ jobs:
         with:
           command: black *.py
           paths: ${{ inputs.paths }}
+          outputsAlways: true
