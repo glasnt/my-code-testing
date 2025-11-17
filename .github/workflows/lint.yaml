@@ -30,4 +30,4 @@ jobs:
         uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/map-run@main
         with:
           command: black *.py
-          paths: ${{ input.paths }}
+          paths: ${{ inputs.paths }}
