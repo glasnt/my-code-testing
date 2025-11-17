@@ -25,13 +25,8 @@ jobs:
   # Run linting against changed packages (command is run in cwd of affected path)
   lint:
     needs: affected
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run linter
-        uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/map-run@v0.5.0rc1
-        with:
-          command: black *.py
-          paths: ${{ needs.affected.outputs.paths }}
+    uses: .github/workflows/lint.yaml@main
+      
 
   # Run tests against changed packages
   test:
