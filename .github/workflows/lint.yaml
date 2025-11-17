@@ -3,11 +3,7 @@ name: lint
 on:
   workflow_call:
     inputs:
-      head-sha:
-        description: The SHA of the head commit.
-        required: true
-        type: string
-      paths-json:
+      paths:
         description: A JSON list of package paths.
         required: true
         type: string
@@ -15,7 +11,7 @@ on:
 jobs:
 
   lint:
-    if: inputs.paths-json != '[]'
+    if: inputs.paths != '[]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,30 +27,7 @@ jobs:
           pip install black
           echo "Contents of paths-json: ${{ inputs.paths-json }}"
       - name: Run Lint
-        uses: actions/github-script@v7
+        uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/map-run@main
         with:
-          script: |
-            const { execSync } = await import("node:child_process");
-
-            const cmd = 'black';
-            let failed = [];
-            for (const path of ${{inputs.paths-json}}) {
-              try {
-                execSync(cmd, {cwd: path});
-                console.log(`✅ [${path}]: ${cmd}`);
-              } catch (e) {
-                failed.push(path)
-                console.log(`❌ [${path}]: ${cmd} (exit code ${e.status})`);
-                core.error(e.message);
-                console.log('--- stdout ---');
-                console.log(e.stdout.toString("utf8"));
-                console.log('--- stderr ---');
-                console.log(e.stderr.toString("utf8"));
-              }
-            }
-            console.log("=== Summary ===")
-            console.log(`  Passed: ${affected.length - failed.length}`)
-            console.log(`  Failed: ${failed.length}`)
-            if (failed.length > 0) {
-              core.setFailed(`Failed '${cmd}' on: ${failed.join(', ')}`)
-            }
+          command: black *.py
+          paths: ${{ input.paths }}
