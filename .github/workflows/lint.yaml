@@ -3,11 +3,7 @@ name: lint
 on:
   workflow_call:
     inputs:
-      head-sha:
-        description: The SHA of the head commit.
-        required: true
-        type: string
-      paths-json:
+      paths:
         description: A JSON list of package paths.
         required: true
         type: string
@@ -15,7 +11,7 @@ on:
 jobs:
 
   lint:
-    if: inputs.paths-json != '[]'
+    if: inputs.paths != '[]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,4 +30,4 @@ jobs:
         uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/map-run@main
         with:
           command: black *.py
-          paths: ${{ needs.affected.outputs.paths }}
+          paths: ${{ input.paths }}
