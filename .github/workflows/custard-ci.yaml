@@ -40,7 +40,6 @@ jobs:
           command: pip install -r requirements-test.txt && pytest
           paths: ${{ needs.affected.outputs.paths }}
 
-
   # Confirm all checks complete
   done:
     needs: [affected, test, lint]
