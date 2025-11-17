@@ -15,7 +15,7 @@ jobs:
 
   # Find the packages that were changed 
   affected:
-    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@ts-gigapudding
+    uses: GoogleCloudPlatform/cloud-samples-tools/.github/workflows/affected.yaml@rework-pudding
     permissions:
       statuses: write
     with:
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run linter
-        uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/map-run@ts-gigapudding
+        uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/map-run@rework-pudding
         with:
           command: pip install -r requirements-test.txt && pytest
           paths: ${{ needs.affected.outputs.paths }}
@@ -48,7 +48,7 @@ jobs:
     permissions:
       statuses: write
     steps:
-      - uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/update-check@ts-gigapudding
+      - uses: GoogleCloudPlatform/cloud-samples-tools/actions/steps/update-check@rework-pudding
         with:
           check: ${{ needs.affected.outputs.check }}
           status: success
